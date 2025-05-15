@@ -3,7 +3,7 @@ const axios = require('axios');
 module.exports = async (req, res) => {
   try {
     const response = await axios.get(
-      'https://sandbox-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
+      'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
       {
         headers: {
           'X-CMC_PRO_API_KEY': process.env.CMC_API_KEY,
