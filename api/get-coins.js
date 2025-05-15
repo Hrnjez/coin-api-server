@@ -16,10 +16,10 @@ module.exports = async (req, res) => {
     const lastUpdated = await redis.get('coin-data-timestamp');
     const now = Date.now();
 
-    const isFresh = lastUpdated && now - parseInt(lastUpdated) < 60 * 60 * 1000;
+    const isFresh = cached && lastUpdated && now - parseInt(lastUpdated) < 60 * 60 * 1000;
 
-    if (cached && isFresh) {
-      return res.status(200).json(JSON.parse(cached));
+    if (isFresh && Array.isArray(cached)) {
+      return res.status(200).json(cached); // No JSON.parse needed
     }
 
     const response = await axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest', {
@@ -41,12 +41,12 @@ module.exports = async (req, res) => {
       percent_change_24h: coin.quote.USD.percent_change_24h,
     }));
 
-    await redis.set('coin-data', JSON.stringify(data));
+    await redis.set('coin-data', data); // store raw array (Upstash auto handles JSON)
     await redis.set('coin-data-timestamp', now.toString());
 
     return res.status(200).json(data);
   } catch (err) {
-    console.error(err);
+    console.error('Coin fetch error:', err);
     return res.status(500).json({ error: 'Failed to fetch coin data' });
   }
 };
