@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 module.exports = async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*'); // 👈 allow all domains (or use specific one)
+  res.setHeader('Access-Control-Allow-Origin', 'https://www.counterparty.tv');
   res.setHeader('Access-Control-Allow-Methods', 'GET');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
