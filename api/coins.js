@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
         },
         params: {
           start: 1,
-          limit: 10,
+          limit: 15,
           convert: 'USD',
         },
       }
