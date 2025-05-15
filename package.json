@@ -1,0 +1,12 @@
+{
+  "name": "coin-api-server",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "main": "api/coins.js",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "axios": "^1.6.7"
+  }
+}
