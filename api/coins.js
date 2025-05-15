@@ -1,6 +1,10 @@
 const axios = require('axios');
 
 module.exports = async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*'); // 👈 allow all domains (or use specific one)
+  res.setHeader('Access-Control-Allow-Methods', 'GET');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
   try {
     const response = await axios.get(
       'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
@@ -17,6 +21,7 @@ module.exports = async (req, res) => {
     );
 
     const data = response.data.data.map((coin) => ({
+      id: coin.id,
       name: coin.name,
       symbol: coin.symbol,
       price: coin.quote.USD.price,
