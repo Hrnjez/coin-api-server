@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
         'X-CMC_PRO_API_KEY': process.env.CMC_API_KEY,
       },
       params: {
-        symbol: 'BTC,ETH,SOL,HYPE,PEPE,DOGE',
+        symbol: 'BTC,ETH,SOL,HYPE,PEPE,DOGE,GOAT',
         convert: 'USD',
       },
     });
