@@ -22,18 +22,17 @@ module.exports = async (req, res) => {
       return res.status(200).json(cached); // No JSON.parse needed
     }
 
-    const response = await axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest', {
+    const response = await axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest', {
       headers: {
         'X-CMC_PRO_API_KEY': process.env.CMC_API_KEY,
       },
       params: {
-        start: 1,
-        limit: 15,
+        symbol: 'BTC,ETH,SOL,HYPE,PEPE,DOGE',
         convert: 'USD',
       },
     });
 
-    const data = response.data.data.map((coin) => ({
+   const data = Object.values(response.data.data).map((coin) => ({
       id: coin.id,
       name: coin.name,
       symbol: coin.symbol,
@@ -41,7 +40,7 @@ module.exports = async (req, res) => {
       percent_change_24h: coin.quote.USD.percent_change_24h,
     }));
 
-    await redis.set('coin-data', data); // store raw array (Upstash auto handles JSON)
+    await redis.set('coin-data', data);
     await redis.set('coin-data-timestamp', now.toString());
 
     return res.status(200).json(data);
